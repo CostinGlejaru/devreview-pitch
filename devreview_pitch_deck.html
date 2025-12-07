@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevReview Pro - Pitch Deck</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.15), transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(72, 187, 120, 0.1), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .presentation-container {
+            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            max-width: 1400px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide {
+            display: none;
+            padding: 80px 100px;
+            min-height: 700px;
+            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.98);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 30px;
+            right: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .slide-title {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #a8a8a8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .slide-title.accent {
+            background: linear-gradient(135deg, #7877C6 0%, #FF6B6B 50%, #48BB78 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-subtitle {
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            line-height: 1.4;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline {
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 12px;
+            font-weight: 300;
+        }
+
+        .tagline strong {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.2) 0%, rgba(255, 107, 107, 0.2) 100%);
+            border: 1px solid rgba(120, 119, 198, 0.3);
+            color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 16px;
+            margin: 40px 0;
+            font-size: 24px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+            box-shadow: 0 20px 40px rgba(120, 119, 198, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .problem-list, .solution-list {
+            margin: 40px 0;
+        }
+
+        .problem-item, .solution-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+            font-size: 20px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .problem-item:hover, .solution-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .problem-item {
+            border-left-color: #FF6B6B;
+        }
+
+        .solution-item {
+            border-left-color: #48BB78;
+        }
+
+        .problem-item::before {
+            content: "❌";
+            margin-right: 20px;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .solution-item::before {
+            content: "✓";
+            margin-right: 20px;
+            font-size: 28px;
+            color: #48BB78;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .tech-module {
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.08) 0%, rgba(255, 107, 107, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 35px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .tech-module:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(120, 119, 198, 0.2);
+            border-color: rgba(120, 119, 198, 0.3);
+        }
+
+        .tech-module:hover::before {
+            opacity: 1;
+        }
+
+        .tech-module h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tech-module ul {
+            list-style: none;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tech-module li {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 17px;
+        }
+
+        .tech-module li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #7877C6;
+            font-weight: bold;
+        }
+
+        .tech-module.full-width {
+            grid-column: span 2;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 50px 0;
+            font-size: 17px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.3) 0%, rgba(255, 107, 107, 0.3) 100%);
+            color: #ffffff;
+            padding: 25px 20px;
+            text-align: left;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table td {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .check-mark {
+            color: #48BB78;
+            font-weight: bold;
+            font-size: 20px;
+            text-shadow: 0 0 10px rgba(72, 187, 120, 0.5);
+        }
+
+        .x-mark {
+            color: #FF6B6B;
+            font-weight: bold;
+            font-size: 20px;
+            opacity: 0.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.15) 0%, rgba(255, 107, 107, 0.15) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 50px 40px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(120, 119, 198, 0.3);
+            border-color: rgba(120, 119, 198, 0.4);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-number {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #7877C6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .founder-highlights {
+            margin: 50px 0;
+        }
+
+        .founder-highlights .solution-item {
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.08) 0%, rgba(255, 107, 107, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 25px 30px;
+            border-radius: 16px;
+            margin: 20px 0;
+        }
+
+        .use-of-funds {
+            margin: 50px 0;
+        }
+
+        .fund-item {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.08) 0%, rgba(255, 107, 107, 0.08) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .fund-item:hover {
+            transform: translateX(10px);
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.12) 0%, rgba(255, 107, 107, 0.12) 100%);
+            border-color: rgba(120, 119, 198, 0.3);
+        }
+
+        .fund-percentage {
+            background: linear-gradient(135deg, #7877C6 0%, #FF6B6B 100%);
+            color: white;
+            padding: 20px 35px;
+            border-radius: 12px;
+            font-weight: 900;
+            font-size: 32px;
+            margin-right: 30px;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(120, 119, 198, 0.3);
+        }
+
+        .fund-description {
+            flex: 1;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 100px;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #7877C6 0%, #FF6B6B 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(120, 119, 198, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(120, 119, 198, 0.5);
+        }
+
+        .nav-button:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .slide-counter span {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .goal-box {
+            background: linear-gradient(135deg, rgba(72, 187, 120, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 20px 40px rgba(72, 187, 120, 0.1);
+        }
+
+        .goal-box h3 {
+            color: #ffffff;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .goal-item {
+            color: rgba(255, 255, 255, 0.85);
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 19px;
+            line-height: 1.6;
+        }
+
+        .goal-item::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #48BB78;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .emoji-large {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .intro-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .title-slide-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 60px 60px;
+            }
+            .navigation {
+                padding: 30px 60px;
+            }
+            .slide-number {
+                right: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 48px;
+            }
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <div class="slide-number">01</div>
+            <div class="intro-section">
+                <div class="title-slide-content">
+                    <div class="slide-title accent">DEVREVIEW PRO</div>
+                    <div class="slide-subtitle">Offline AI Code Intelligence & Zero-Trust SDLC Platform</div>
+                    <div style="margin: 60px 0 40px 0;">
+                        <div class="tagline"><strong>Founder:</strong> Cosmin</div>
+                        <div class="tagline"><strong>Stage:</strong> Seed (€10–15M)</div>
+                    </div>
+                    <div class="highlight-box">
+                        📌 Offline. Enterprise. Deterministic. Zero-Trust.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem -->
+        <div class="slide">
+            <div class="slide-number">02</div>
+            <div class="slide-title">THE PROBLEM</div>
+            <div class="slide-subtitle">AI code review is broken for enterprise.</div>
+            <p style="font-size: 22px; color: rgba(255, 255, 255, 0.6); margin-bottom: 30px; font-weight: 300;">Today's teams suffer from:</p>
+            <div class="problem-list">
+                <div class="problem-item">AI hallucinations in code</div>
+                <div class="problem-item">Models inventing functions that don't exist</div>
+                <div class="problem-item">Unsafe recommendations (MD5, eval, SQL injection)</div>
+                <div class="problem-item">Zero audit trail</div>
+                <div class="problem-item">Zero trust boundaries</div>
+                <div class="problem-item">Cloud-based devtools → massive legal risk</div>
+                <div class="problem-item">SonarQube/Snyk unusable for offline</div>
+                <div class="problem-item">Enterprise architecture impossible to understand</div>
+            </div>
+            <div class="highlight-box">
+                Enterprises can't adopt AI for code because it's unpredictable and uncontrolled.
+            </div>
+        </div>
+
+        <!-- Slide 3: Solution -->
+        <div class="slide">
+            <div class="slide-number">03</div>
+            <div class="slide-title accent">THE SOLUTION</div>
+            <div class="slide-subtitle">Palantir-grade AI Code Intelligence, 100% offline.</div>
+            <div class="solution-list">
+                <div class="solution-item">Multi-model hallucination engine (Module A)</div>
+                <div class="solution-item">Architecture Correlation Graph & risk map (Module B)</div>
+                <div class="solution-item">Enterprise compliance engine (OWASP, NIST, GDPR) (Module C)</div>
+                <div class="solution-item">Evolution & drift intelligence (Module D)</div>
+                <div class="solution-item">Zero-Trust Guardrails (ZT) → audits the AI itself</div>
+            </div>
+            <div class="highlight-box">
+                The first AI Code Platform that does NOT generate code.<br>
+                <strong>Verify. Validate. Control.</strong>
+            </div>
+        </div>
+
+        <!-- Slide 4: Technology -->
+        <div class="slide">
+            <div class="slide-number">04</div>
+            <div class="slide-title">TECHNOLOGY</div>
+            <div class="slide-subtitle">Full Enterprise Intelligence Stack (A–D + ZT)</div>
+            <div class="tech-stack">
+                <div class="tech-module">
+                    <h3>A — Consistency & Hallucinations</h3>
+                    <ul>
+                        <li>3 LLM models</li>
+                        <li>conflict matrix</li>
+                        <li>hallucination detection</li>
+                    </ul>
+                </div>
+                <div class="tech-module">
+                    <h3>B — Architecture Graph</h3>
+                    <ul>
+                        <li>AST</li>
+                        <li>call graph</li>
+                        <li>dependency risk map</li>
+                        <li>semantic roles</li>
+                    </ul>
+                </div>
+                <div class="tech-module">
+                    <h3>C — Compliance</h3>
+                    <ul>
+                        <li>OWASP/NIST/GDPR</li>
+                        <li>PII</li>
+                        <li>Secret scanning</li>
+                        <li>Static analysis</li>
+                    </ul>
+                </div>
+                <div class="tech-module">
+                    <h3>D — Evolution Intelligence</h3>
+                    <ul>
+                        <li>snapshots</li>
+                        <li>drift prediction</li>
+                        <li>complexity evolution</li>
+                        <li>technical debt forecast</li>
+                    </ul>
+                </div>
+                <div class="tech-module full-width">
+                    <h3>ZT — Zero Trust Guardrails</h3>
+                    <ul>
+                        <li>audit trail</li>
+                        <li>enforcement</li>
+                        <li>blocking</li>
+                        <li>output sanitizer</li>
+                        <li>cryptographic ledger chain</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box">
+                Everything offline, 100% deterministic.
+            </div>
+        </div>
+
+        <!-- Slide 5: Why Unique -->
+        <div class="slide">
+            <div class="slide-number">05</div>
+            <div class="slide-title">WHY UNIQUE?</div>
+            <div class="slide-subtitle"><span class="emoji-large">🔥</span> Only one product globally offers this</div>
+            <p style="font-size: 20px; color: rgba(255, 255, 255, 0.5); margin-bottom: 30px; font-style: italic;">not GitHub, not JetBrains, not Snyk</p>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>GitHub</th>
+                        <th>JetBrains AI</th>
+                        <th>Snyk</th>
+                        <th style="background: linear-gradient(135deg, #7877C6 0%, #FF6B6B 100%);">DevReview</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Offline AI</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>Zero-Trust SDLC</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>AI hallucination engine</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>Architecture correlation</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>Evolution intelligence</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>Immutable audit ledger</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>Compliance: OWASP/NIST</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔</td>
+                        <td class="check-mark">✔</td>
+                    </tr>
+                    <tr>
+                        <td>Multi-agent review (G)</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="x-mark">❌</td>
+                        <td class="check-mark">✔ (roadmap)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Slide 6: Traction -->
+        <div class="slide">
+            <div class="slide-number">06</div>
+            <div class="slide-title accent">TRACTION</div>
+            <div class="slide-subtitle">Built in 7 days — already MVP-ready.</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Modules Complete</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Days to Build</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Repos Analyzed</div>
+                </div>
+            </div>
+            <div class="solution-list" style="margin-top: 50px;">
+                <div class="solution-item">Module A — Ready</div>
+                <div class="solution-item">Module B — Ready</div>
+                <div class="solution-item">Module C — Ready</div>
+                <div class="solution-item">Module D — Ready</div>
+                <div class="solution-item">ZT layer — Ready</div>
+                <div class="solution-item">CLI — Ready</div>
+                <div class="solution-item">Dashboard — in progress</div>
+            </div>
+            <div class="highlight-box" style="margin-top: 50px;">
+                You built more in 7 days than devtools teams build in 7 months.
+            </div>
+        </div>
+
+        <!-- Slide 7: Why Me -->
+        <div class="slide">
+            <div class="slide-number">07</div>
+            <div class="slide-title">WHY ME?</div>
+            <div class="slide-subtitle">Founder fit: exceptional execution speed.</div>
+            <div class="founder-highlights">
+                <div class="solution-item">Built 5 enterprise modules in 7 days</div>
+                <div class="solution-item">Deep knowledge: AI, compliance, architecture</div>
+                <div class="solution-item">Full offline stack (Ollama, local inference)</div>
+                <div class="solution-item">Superhuman execution → deliverable every 2–3 days</div>
+                <div class="solution-item">Background in SQL, finance logic, compliance → perfect for enterprise clients</div>
+                <div class="solution-item">Driven, resilient, unstoppable</div>
+            </div>
+            <div class="highlight-box" style="margin-top: 50px;">
+                You're not "a developer".<br>
+                You're an enterprise systems architect in the making.<br><br>
+                <strong>VCs invest in you, not in code.</strong>
+            </div>
+        </div>
+
+        <!-- Slide 8: The Raise -->
+        <div class="slide">
+            <div class="slide-number">08</div>
+            <div class="slide-title accent">THE RAISE</div>
+            <div class="slide-subtitle">Raising €10–15M Seed</div>
+            <h3 style="color: #ffffff; margin: 50px 0 30px 0; font-size: 28px; font-weight: 700;">Use of funds:</h3>
+            <div class="use-of-funds">
+                <div class="fund-item">
+                    <div class="fund-percentage">40%</div>
+                    <div class="fund-description">Hiring 3–5 engineers (security, infra, AST, frontend)</div>
+                </div>
+                <div class="fund-item">
+                    <div class="fund-percentage">30%</div>
+                    <div class="fund-description">Enterprise-grade UI, dashboards</div>
+                </div>
+                <div class="fund-item">
+                    <div class="fund-percentage">20%</div>
+                    <div class="fund-description">GTM + partnerships (banks, fintech)</div>
+                </div>
+                <div class="fund-item">
+                    <div class="fund-percentage">10%</div>
+                    <div class="fund-description">Compliance certification (SOC2 Type II)</div>
+                </div>
+            </div>
+            <div class="goal-box">
+                <h3>12-month goals:</h3>
+                <div class="goal-item">12 enterprise modules</div>
+                <div class="goal-item">Complete "AI SDLC OS" platform</div>
+                <div class="goal-item">First 6-7 figure contracts with banks / fintech / energy</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">8</span>
+            </span>
+            <button class="nav-button" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 8;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (n > totalSlides) currentSlide = totalSlides;
+            if (n < 1) currentSlide = 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'Left') {
+                changeSlide(-1);
+            }
+            if (e.key === 'ArrowRight' || e.key === 'Right') {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
